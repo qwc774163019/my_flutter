@@ -20,7 +20,7 @@ class MyHomePage extends StatefulWidget{
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  final navigatorKey = GlobalKey<NavigatorState>();
   static const methodChannel=const MethodChannel('to_native');
   String _result='';
   void _incrementCounter() {
@@ -44,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement build
     return new MaterialApp(
       title: 'MyHomePage',
+      navigatorKey: navigatorKey,
       home: new Scaffold(
         appBar: AppBar(title: Text(widget.title),),
         body: Center(
@@ -52,7 +53,10 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               FlatButton(
                 child: Text('ToEventChannelPage'),
-                onPressed: (){Navigator.push(context, new MaterialPageRoute(builder: (context)=>EventChannelPage(title: 'EventChannelPage',)));},
+                onPressed: (){
+//                  Navigator.push(context, new MaterialPageRoute(builder: (context)=>EventChannelPage(title: 'EventChannelPage')));
+                  navigatorKey.currentState.push(new MaterialPageRoute(builder: (context)=>EventChannelPage(title: 'EventChannelPage')));
+                  },
               ),
               Text('${_result}',style: Theme.of(context).textTheme.display1,)
             ],
@@ -60,8 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: _incrementCounter,
-          tooltip: 'Forward',
-          child: Icon(Icons.forward),
+          tooltip: 'add',
+          child: Icon(Icons.add),
         ),
       ),
     );
